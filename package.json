@@ -3,7 +3,7 @@
 	"version": "0.0.0",
 	"description": "A Hangul library for various Hangul/Korean operations",
 	"keywords": [
-		"hangul", "hangeul", "korea", "korean"
+		"hangul", "hangeul", "korea", "korean", "한글", "한국어"
 	],
 	"main": "./lib/index.js",
 	"repository": {
