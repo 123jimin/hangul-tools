@@ -1,6 +1,8 @@
 # hangul-tools
 잡다한 한글 관련 자바스크립트 라이브러리.
 
+아직 한글 조합형이나 옛한글 등은 지원하지 않고 있습니다.
+
 *현재 제작중입니다.*
 
 ## hangul-tools 불러오기
@@ -22,6 +24,9 @@ console.log(HanTools.JONGSEONG_EMPTY);
 ```
 
 ## 글자 단위 연산
+한글을 확인할 때, 공백이나 초성, 중성, 기타 문자들이 들어가 있으면 안 된다는 것에
+주의해 주시기 바랍니다.
+
 ```js
 // true
 console.log(HanTools.isHangul("강"));
@@ -36,7 +41,7 @@ console.log(HanTools.toChoseong("노드.제이에스"));
 console.log(HanTools.toJungseong("노드.제이에스"));
 
 // 문자열 "ㄴㅇXXX!"
-console.log(HanTools.toJongSeong("안녕하세요!"));
+console.log(HanTools.toJongseong("안녕하세요!"));
 
 // [["ㅇ","ㅣ","ㅇ"], ["ㅇ","ㅕ"], "!"]
 console.log(

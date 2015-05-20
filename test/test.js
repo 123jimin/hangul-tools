@@ -17,4 +17,42 @@ describe('HanTools', function(){
 		assert.strictEqual(HanTools.JONGSEONG.slice(1), "ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ", "Jongseong list should be exact.");
 		assert.strictEqual(HanTools.JONGSEONG_EMPTY, HanTools.JONGSEONG[0], "The first character of the jongseong list should be JONGSEONG_EMPTY.");
 	});
+	describe('#isHangul()', function(){
+		assert.ok(HanTools.isHangul("가"));
+		assert.ok(HanTools.isHangul("강"));
+		assert.ok(HanTools.isHangul("힣"));
+		assert.ok(HanTools.isHangul("안녕하세요"));
+		assert.ok(HanTools.isHangul("가힣아햏햏"));
+		assert.fail(HanTools.isHangul("F"));
+		assert.fail(HanTools.isHangul("ㅏ"));
+		assert.fail(HanTools.isHangul("ㅓ"));
+		assert.fail(HanTools.isHangul("ㅇ"));
+		assert.fail(HanTools.isHangul("뭐라고?"));
+		assert.fail(HanTools.isHangul("안녕 하세요"));
+	});
+	describe('#toChoseong()', function(){
+		assert.strictEqual(HanTools.toChoseong("노드.제이에스"), "ㄴㄷ.ㅈㅇㅇㅅ");
+		assert.strictEqual(HanTools.toChoseong("안녕하세요 ㅇㅅㅇ, 만나서 반갑습니다."), "ㅇㄴㅎㅅㅇ ㅇㅅㅇ, ㅁㄴㅅ ㅂㄱㅅㄴㄷ.");
+	});
+	describe('#toJungseong()', function(){
+		assert.strictEqual(HanTools.toJungseong("노드.제이에스"), "ㅗㅡ.ㅔㅣㅔㅡ");
+		assert.strictEqual(HanTools.toJungseong("안녕하세요 ㅇㅅㅇ, 만나서 반갑습니다."), "ㅏㅕㅏㅔㅛ ㅇㅅㅇ, ㅏㅏㅓ ㅏㅏㅡㅣㅏ.");
+	});
+	describe('#toJongseong()', function(){
+		var X = HanTools.JONGSEONG_EMPTY;
+		assert.strictEqual(HanTools.toJongseong("안녕하세요!"), "ㄴㅇ"+X+X+X+"!");
+		assert.strictEqual(HanTools.toJongseong("노드.제이에스"), X+X+"."+X+X+X+X);
+		assert.strictEqual(HanTools.toJongseong("안녕하세요 ㅇㅅㅇ, 만나서 반갑습니다."), "ㄴㅇ"+X+X+X+" ㅇㅅㅇ, ㄴ"+X+X+" ㄴㅂㅂ"+X+X+".");
+	});
+	describe('#disintegrate()', function(){
+		assert.deepEqual(HanTools.disintegrate("가"), ["ㄱ", "ㅏ"]);
+		assert.deepEqual(HanTools.disintegrate("강"), ["ㄱ", "ㅏ", "ㅇ"]);
+		assert.deepEqual(HanTools.disintegrate("ㅔ"), "ㅔ");
+	});
+	describe('#dueum()', function(){
+	});
+	describe('#josa()', function(){
+	});
+	describe('#addJosa()', function(){
+	});
 });
