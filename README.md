@@ -16,6 +16,35 @@ console.log(HanTools.jungseong);
 
 // 문자열 "Xㄱㄲㄳ...ㅎ"
 console.log(HanTools.jongseong);
+
+// (현재) 문자열 "X"
+console.log(HanTools.CHAR_JONGSEONG_EMPTY);
+```
+
+## 글자 단위 연산
+```js
+// true
+console.log(HanTools.isHangul("강"));
+
+// false
+console.log(HanTools.isHangul("ㅓ"));
+
+// 문자열 "ㄴㄷ.ㅈㅇㅇㅅ"
+console.log(HanTools.toChoseong("노드.제이에스"));
+
+// 문자열 "ㅗㅡ.ㅔㅣㅔㅡ"
+console.log(HanTools.toJungseong("노드.제이에스"));
+
+// 문자열 "ㄴㅇXXX!"
+console.log(HanTools.toJongSeong("안녕하세요!"));
+
+// [["ㅇ","ㅣ","ㅇ"], ["ㅇ","ㅕ"], "!"]
+console.log(
+	"잉여!".split('').map(HanTools.disintegrate)
+);
+
+// 문자열 "요로"
+console.log(HanTools.dueum("뇨로"));
 ```
 
 ## 조사 다루기
@@ -42,8 +71,11 @@ console.log("%s%s %s%s %s %s"
 
 ```js
 // 숫자 '1234'
-console.log(HanTools.readNumber("천 이백 삼십 사"));
+console.log(HanTools.parseNumber("천 이백 삼십 사"));
 
 // 문자열 "점수 1234점"
-console.log(HanTools.readNumber("점수 천 이백 삼십 사 점"));
+console.log(HanTools.replaceNumber("점수 천 이백 삼십 사 점"));
+
+// 문자열 "천 이백 삼십 사"
+console.log(HanTools.readNumber(1234));
 ```
