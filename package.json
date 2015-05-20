@@ -10,6 +10,12 @@
 		"type": "git",
 		"url": "git://github.com/123jimin/hangul-tools.git"
 	},
+	"scripts": {
+		"test": "./node_modules/mocha/bin/mocha -R spec"
+	},
+	"devDependencies": {
+		"mocha": "^2.2.1"
+	},
 	"license": "MIT",
 	"readme": "README.md",
 	"private": true
