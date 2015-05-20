@@ -39,6 +39,61 @@ var HanTools = {
 		}
 		return r;
 	},
+	'toJungseong': function(s){
+		var r, i, c, JUNGSEONG = HanTools.JUNGSEONG;
+		if(s.length == 1){
+			c = s.charCodeAt(0);
+			if(c >= HANGUL_FIRST_CODE && c <= HANGUL_LAST_CODE)
+				return JUNGSEONG[0|(c-HANGUL_FIRST_CODE)/28%21];
+			else
+				return s;
+		}
+		r = "";
+		for(i=0; i<s.length; i++){
+			c = s.charCodeAt(i);
+			if(c >= HANGUL_FIRST_CODE && c <= HANGUL_LAST_CODE)
+				r += JUNGSEONG[0|(c-HANGUL_FIRST_CODE)/28%21];
+			else
+				r += s[i];
+		}
+		return r;
+	},
+	'toJongseong': function(s){
+		var r, i, c, JONGSEONG = HanTools.JONGSEONG;
+		if(s.length == 1){
+			c = s.charCodeAt(0);
+			if(c >= HANGUL_FIRST_CODE && c <= HANGUL_LAST_CODE)
+				return JONGSEONG[0|(c-HANGUL_FIRST_CODE)%28];
+			else
+				return s;
+		}
+		r = "";
+		for(i=0; i<s.length; i++){
+			c = s.charCodeAt(i);
+			if(c >= HANGUL_FIRST_CODE && c <= HANGUL_LAST_CODE)
+				r += JONGSEONG[(c-HANGUL_FIRST_CODE)%28];
+			else
+				r += s[i];
+		}
+		return r;
+	},
+	'disintegrate': function(s){
+		var c = s.charCodeAt(0);
+		if(c >= HANGUL_FIRST_CODE && c <= HANGUL_LAST_CODE){
+			c -= HANGUL_FIRST_CODE;
+			if(c % 28)
+				return [
+					HanTools.CHOSEONG[0|c/588],
+					HanTools.JUNGSEONG[0|c/28%21],
+					HanTools.JONGSEONG[c%28]
+				];
+			else
+				return [
+					HanTools.CHOSEONG[0|c/588],
+					HanTools.JUNGSEONG[0|c/28%21]
+				];
+		}else return s;
+	},
 	'noConflict': function(){
 		root.HanTools = _old_hantools;
 		return HanTools;
