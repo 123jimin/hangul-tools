@@ -6,6 +6,10 @@ var root = this;
 var _old_hantools = this.HanTools;
 
 var HanTools = {
+	'CHOSEONG': "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",
+	'JUNGSEONG': "ㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ",
+	'JONGSEONG': "Xㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ",
+	'JONGSEONG_EMPTY': "X",
 	'noConflict': function(){
 		root.HanTools = _old_hantools;
 		return HanTools;
