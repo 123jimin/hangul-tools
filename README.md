@@ -84,3 +84,8 @@ console.log(HanTools.replaceNumber("점수 천 이백 삼십 사 점"));
 // 문자열 "천 이백 삼십 사"
 console.log(HanTools.readNumber(1234));
 ```
+
+## 키보드
+두벌식과 세벌식 390을 지원합니다.
+
+## 시간과 시각
