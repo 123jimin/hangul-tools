@@ -9,16 +9,16 @@
 ## 초성, 중성, 종성 목록
 ```js
 // 문자열 "ㄱㄲㄴㄷ...ㅎ"
-console.log(HanTools.choseong);
+console.log(HanTools.CHOSEONG);
 
 // 문자열 "ㅏ...ㅣ"
-console.log(HanTools.jungseong);
+console.log(HanTools.JUNGSEONG);
 
 // 문자열 "Xㄱㄲㄳ...ㅎ"
-console.log(HanTools.jongseong);
+console.log(HanTools.JONGSEONG);
 
 // (현재) 문자열 "X"
-console.log(HanTools.CHAR_JONGSEONG_EMPTY);
+console.log(HanTools.JONGSEONG_EMPTY);
 ```
 
 ## 글자 단위 연산
