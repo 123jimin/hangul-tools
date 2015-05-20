@@ -73,7 +73,7 @@ console.log("%s%s %s%s %s %s"
 // 숫자 '1234'
 console.log(HanTools.parseNumber("천 이백 삼십 사"));
 
-// 문자열 "점수 1234점"
+// 문자열 "점수 1234 점"
 console.log(HanTools.replaceNumber("점수 천 이백 삼십 사 점"));
 
 // 문자열 "천 이백 삼십 사"
