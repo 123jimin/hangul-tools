@@ -5,7 +5,7 @@
 	"keywords": [
 		"hangul", "hangeul", "korea", "korean", "한글", "한국어"
 	],
-	"main": "./lib/index.js",
+	"main": "./hangul-tools.js",
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/123jimin/hangul-tools.git"
