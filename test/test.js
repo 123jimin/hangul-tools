@@ -23,12 +23,13 @@ describe('HanTools', function(){
 		assert.ok(HanTools.isHangul("힣"));
 		assert.ok(HanTools.isHangul("안녕하세요"));
 		assert.ok(HanTools.isHangul("가힣아햏햏"));
-		assert.fail(HanTools.isHangul("F"));
-		assert.fail(HanTools.isHangul("ㅏ"));
-		assert.fail(HanTools.isHangul("ㅓ"));
-		assert.fail(HanTools.isHangul("ㅇ"));
-		assert.fail(HanTools.isHangul("뭐라고?"));
-		assert.fail(HanTools.isHangul("안녕 하세요"));
+
+		assert.ok(!HanTools.isHangul("F"));
+		assert.ok(!HanTools.isHangul("ㅏ"));
+		assert.ok(!HanTools.isHangul("ㅓ"));
+		assert.ok(!HanTools.isHangul("ㅇ"));
+		assert.ok(!HanTools.isHangul("뭐라고?"));
+		assert.ok(!HanTools.isHangul("안녕 하세요"));
 	});
 	describe('#toChoseong()', function(){
 		assert.strictEqual(HanTools.toChoseong("노드.제이에스"), "ㄴㄷ.ㅈㅇㅇㅅ");
