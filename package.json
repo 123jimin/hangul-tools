@@ -1,0 +1,16 @@
+{
+	"name": "hangul-tools",
+	"version": "0.0.0",
+	"description": "A Hangul library for various Hangul/Korean operations",
+	"keywords": [
+		"hangul", "hangeul", "korea", "korean"
+	],
+	"main": "./lib/index.js",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/123jimin/hangul-tools.git"
+	},
+	"license": "MIT",
+	"readme": "README.md",
+	"private": true
+}
