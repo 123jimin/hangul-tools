@@ -64,9 +64,37 @@ describe('HanTools', function(){
 		});
 	});
 	describe('#dueum()', function(){
+		it("should convert the first character correctly", function(){
+			assert.deepEqual(HanTools.dueum("녀자"), "여자");
+			assert.deepEqual(HanTools.dueum("로동"), "노동");
+			assert.deepEqual(HanTools.dueum("니르다"), "이르다");
+			assert.deepEqual(HanTools.dueum("량민"), "양민");
+			assert.deepEqual(HanTools.dueum("력사"), "역사");
+			assert.deepEqual(HanTools.dueum("례외"), "예외");
+			assert.deepEqual(HanTools.dueum("로인"), "노인");
+			assert.deepEqual(HanTools.dueum("리유"), "이유");
+			assert.deepEqual(HanTools.dueum("룡인"), "용인");
+			assert.deepEqual(HanTools.dueum("뇨료"), "요료");
+			assert.deepEqual(HanTools.dueum("려행"), "여행");
+			assert.deepEqual(HanTools.dueum("년도"), "연도");
+			assert.deepEqual(HanTools.dueum("뢰"), "뇌");
+			assert.deepEqual(HanTools.dueum("리"), "이");
+		});
+		it("should not convert other first characters", function(){
+			assert.deepEqual(HanTools.dueum("나"), "나");
+			assert.deepEqual(HanTools.dueum("유"), "유");
+			assert.deepEqual(HanTools.dueum("뇌"), "뇌");
+			assert.deepEqual(HanTools.dueum("부녀자"), "부녀자");
+		});
 	});
 	describe('#josa()', function(){
 	});
 	describe('#addJosa()', function(){
+	});
+	describe('#parseNumber()', function(){
+	});
+	describe('#replaceNumber()', function(){
+	});
+	describe('#readNumber()', function(){
 	});
 });
