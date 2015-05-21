@@ -60,36 +60,65 @@ describe('HanTools', function(){
 		it("should disintegrate a character properly", function(){
 			assert.deepEqual(HanTools.disintegrate("가"), ["ㄱ", "ㅏ"]);
 			assert.deepEqual(HanTools.disintegrate("강"), ["ㄱ", "ㅏ", "ㅇ"]);
-			assert.deepEqual(HanTools.disintegrate("ㅔ"), "ㅔ");
+			assert.strictEqual(HanTools.disintegrate("ㅔ"), "ㅔ");
 		});
 	});
 	describe('#dueum()', function(){
 		it("should convert the first character correctly", function(){
-			assert.deepEqual(HanTools.dueum("녀자"), "여자");
-			assert.deepEqual(HanTools.dueum("로동"), "노동");
-			assert.deepEqual(HanTools.dueum("니르다"), "이르다");
-			assert.deepEqual(HanTools.dueum("량민"), "양민");
-			assert.deepEqual(HanTools.dueum("력사"), "역사");
-			assert.deepEqual(HanTools.dueum("례외"), "예외");
-			assert.deepEqual(HanTools.dueum("로인"), "노인");
-			assert.deepEqual(HanTools.dueum("리유"), "이유");
-			assert.deepEqual(HanTools.dueum("룡인"), "용인");
-			assert.deepEqual(HanTools.dueum("뇨료"), "요료");
-			assert.deepEqual(HanTools.dueum("려행"), "여행");
-			assert.deepEqual(HanTools.dueum("년도"), "연도");
-			assert.deepEqual(HanTools.dueum("뢰"), "뇌");
-			assert.deepEqual(HanTools.dueum("리"), "이");
+			assert.strictEqual(HanTools.dueum("녀자"), "여자");
+			assert.strictEqual(HanTools.dueum("로동"), "노동");
+			assert.strictEqual(HanTools.dueum("니르다"), "이르다");
+			assert.strictEqual(HanTools.dueum("량민"), "양민");
+			assert.strictEqual(HanTools.dueum("력사"), "역사");
+			assert.strictEqual(HanTools.dueum("례외"), "예외");
+			assert.strictEqual(HanTools.dueum("로인"), "노인");
+			assert.strictEqual(HanTools.dueum("리유"), "이유");
+			assert.strictEqual(HanTools.dueum("룡인"), "용인");
+			assert.strictEqual(HanTools.dueum("뇨료"), "요료");
+			assert.strictEqual(HanTools.dueum("려행"), "여행");
+			assert.strictEqual(HanTools.dueum("년도"), "연도");
+			assert.strictEqual(HanTools.dueum("뢰"), "뇌");
+			assert.strictEqual(HanTools.dueum("리"), "이");
 		});
 		it("should not convert other first characters", function(){
-			assert.deepEqual(HanTools.dueum("나"), "나");
-			assert.deepEqual(HanTools.dueum("유"), "유");
-			assert.deepEqual(HanTools.dueum("뇌"), "뇌");
-			assert.deepEqual(HanTools.dueum("부녀자"), "부녀자");
+			assert.strictEqual(HanTools.dueum("나"), "나");
+			assert.strictEqual(HanTools.dueum("유"), "유");
+			assert.strictEqual(HanTools.dueum("뇌"), "뇌");
+			assert.strictEqual(HanTools.dueum("부녀자"), "부녀자");
 		});
 	});
 	describe('#josa()', function(){
+		it("should return some string for empty string or non-Hangul", function(){
+			var test = function testJosa(s, a){
+				var josa = HanTools.josa(s, a);
+				assert.ok(josa == a[0] || josa == a[1], "Josa should be one of given two.");
+			};
+			test("", "이가");
+			test("나는 a", "을를");
+			test("ㅏ", "이가");
+			test("Hello, world!", "을를");
+			test("Node.js", "은는");
+		});
+		it("should return correct josa", function(){
+			assert.strictEqual(HanTools.josa("내", "이가"), "가");
+			assert.strictEqual(HanTools.josa("남", "이가"), "이");
+			assert.strictEqual(HanTools.josa("당신", "을를"), "을");
+			assert.strictEqual(HanTools.josa("소금", "을를"), "을");
+		});
+		it("should work for any strings or arrays", function(){
+			assert.strictEqual(HanTools.josa("인간", "12"), "1");
+			assert.strictEqual(HanTools.josa("감자", "12"), "2");
+			assert.strictEqual(HanTools.josa("소금", [true, false]), true);
+			assert.strictEqual(HanTools.josa("감자", [true, false]), false);
+		});
 	});
 	describe('#addJosa()', function(){
+		it("should add correct josa", function(){
+			assert.strictEqual(HanTools.addJosa("내", "이가"), "내가");
+			assert.strictEqual(HanTools.addJosa("당신", "을를"), "당신을");
+			assert.strictEqual(HanTools.addJosa("좋아하", "은는"), "좋아하는");
+			assert.strictEqual(HanTools.addJosa("것", "은는"), "것은");
+		});
 	});
 	describe('#parseNumber()', function(){
 	});

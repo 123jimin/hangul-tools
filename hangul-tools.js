@@ -123,6 +123,14 @@ var HanTools = {
 		}
 		return String.fromCharCode(c) + s.slice(1);
 	},
+	'josa': function(s, a){
+		if(!s) return a[0];
+		var c = s.charCodeAt(s.length-1);
+		return a[+!((c-HANGUL_FIRST_CODE)%JONGSEONG_LEN)];
+	},
+	'addJosa': function(s, a){
+		return s + HanTools.josa(s, a);
+	},
 	'noConflict': function(){
 		root.HanTools = _old_hantools;
 		return HanTools;
