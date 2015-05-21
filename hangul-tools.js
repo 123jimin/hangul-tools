@@ -14,6 +14,52 @@ var CHOSEONG = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",
 	JUNGSEONG_LEN = JUNGSEONG.length,
 	JONGSEONG_LEN = JONGSEONG.length;
 
+// Making a regular expression for Numerals
+var numRegExp_thousand = null,
+	numRegExp = null;
+(function(){
+	var h_nums = [
+		"영",
+		"일一壹",
+		"이二",
+		"삼三參",
+		"사四",
+		"오五伍",
+		"육六",
+		"칠七",
+		"팔八",
+		"구九",
+		"십十拾"
+	];
+	h_nums.십 = h_nums[10];
+	h_nums.백 = "백百";
+	h_nums.천 = "천千仟";
+	h_nums.만 = "만萬";
+	h_nums.억 = "억億";
+	h_nums.조 = "조兆";
+	h_nums.경 = "경京";
+	var digits = "[1-9" + h_nums.join('') + "]",
+		thousands =
+			"(?:"+digits+"?["+h_nums.천+"]\\s?)?" +
+			"(?:"+digits+"?["+h_nums.백+"]\\s?)?" +
+			"(?:"+digits+"?["+h_nums.십+"]\\s?)?" +
+			digits + "?|[1-9][0-9]{0,3}";
+
+	numRegExp_thousand = new RegExp("^"
+		+ "(?:("+digits+"?["+h_nums.천+"])\\s?)?"
+		+ "(?:("+digits+"?["+h_nums.백+"])\\s?)?"
+		+ "(?:("+digits+"?["+h_nums.십+"])\\s?)?"
+		+ "("+digits+")?$");
+	
+	numRegExp = new RegExp("(\\s|^)"
+		+ "((?:"+thousands+")["+h_nums.경+"]\\s?)?"
+		+ "((?:"+thousands+")["+h_nums.조+"]\\s?)?"
+		+ "((?:"+thousands+")["+h_nums.억+"]\\s?)?"
+		+ "((?:"+thousands+")["+h_nums.만+"]\\s?)?"
+		+ "("+thousands+")?"
+	+"($|\\s)", 'g');
+})();
+
 var root = this;
 var _old_hantools = this.HanTools;
 
