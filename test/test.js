@@ -123,6 +123,15 @@ describe('HanTools', function(){
 	describe('#parseNumber()', function(){
 	});
 	describe('#replaceNumber()', function(){
+		it("should recognize Korean numbers correcty", function(){
+			assert.strictEqual(HanTools.replaceNumber("점수 천 이백 삼십 사 점"), "점수 1234 점");
+			assert.strictEqual(HanTools.replaceNumber("점수 천이백삼십사 점"), "점수 1234 점");
+			assert.strictEqual(HanTools.replaceNumber("일 더하기 일 은 귀요미!"), "1 더하기 1 은 귀요미!");
+			assert.strictEqual(HanTools.replaceNumber("영"), "0");
+		});
+		it("should handle numbers with inner-zeros correctly", function(){
+			assert.strictEqual(HanTools.replaceNumber("백조 한 마리"), "100000000000000 한 마리");
+		});
 	});
 	describe('#readNumber()', function(){
 	});
