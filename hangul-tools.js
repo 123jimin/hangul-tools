@@ -14,6 +14,20 @@ var CHOSEONG = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ",
 	JUNGSEONG_LEN = JUNGSEONG.length,
 	JONGSEONG_LEN = JONGSEONG.length;
 
+var HANGUL_NUMBERS = [
+	"영",
+	"일一壹",
+	"이二",
+	"삼三參",
+	"사四",
+	"오五伍",
+	"육六",
+	"칠七",
+	"팔八",
+	"구九",
+	"십十拾"
+];
+
 var padZero = function padZero(n, l){
 	for(n+=''; n.length<l; n='0'+n);
 	return n;
@@ -24,20 +38,7 @@ var numRegExp_thousand = null,
 	numRegExp = null,
 	numReadMap = {};
 
-(function(){
-	var h_nums = [
-		"영",
-		"일一壹",
-		"이二",
-		"삼三參",
-		"사四",
-		"오五伍",
-		"육六",
-		"칠七",
-		"팔八",
-		"구九",
-		"십十拾"
-	];
+(function(h_nums){
 	h_nums.forEach(function(s, i){
 		s.split('').forEach(function(c){
 			numReadMap[c] = i;
@@ -70,9 +71,9 @@ var numRegExp_thousand = null,
 		+ "((?:"+thousands+")["+h_nums.만+"]\\s?)?"
 		+ "("+thousands+")?"
 	+"($|\\s)", 'g');
-})();
+})(HANGUL_NUMBERS);
 
-var readNumber_thousands = function(s){
+var parseNumber_thousands = function(s){
 	if(!s) return 0;
 	var m = s.match(numRegExp_thousand);
 	if(m == null) return parseInt(s, 10) || 0;
@@ -88,6 +89,14 @@ var readNumber_thousands = function(s){
 		}
 	}
 	return x;
+}, readNumber_thousands = function(n){
+	if(n<10) return HANGUL_NUMBERS[n][0];
+	return [0|n/1000, (0|n/100)%10, (0|n/10)%10, n%10].map(function(n, i){
+		if(n == 0) return "";
+		else if(n == 1) return "천백십일"[i];
+		else if(i == 3) return HANGUL_NUMBERS[n][0];
+		else return HANGUL_NUMBERS[n][0] + "천백십"[i];
+	}).join(' ');
 };
 
 var root = this;
@@ -207,6 +216,10 @@ var HanTools = {
 	'addJosa': function(s, a){
 		return s + HanTools.josa(s, a);
 	},
+	'parseNumber': function(s){
+		// need to find a better way...
+		return parseInt(HanTools.replaceNumber(s));
+	},
 	'replaceNumber': function(s){
 		return s.split(/([\[\]\(\)\^\+\-\*\/.,?!])/).map(function(s){
 			if(!s || !s.trim()) return s;
@@ -219,11 +232,11 @@ var HanTools = {
 					if(억){억 = 억.replace(/\s/g,'').slice(0,-1); if(!억) 억 = '1';}
 					if(만){만 = 만.replace(/\s/g,'').slice(0,-1); if(!만) 만 = '1';}
 			
-					경 = readNumber_thousands(경);
-					조 = readNumber_thousands(조);
-					억 = readNumber_thousands(억);
-					만 = readNumber_thousands(만);
-					일 = readNumber_thousands(일);
+					경 = parseNumber_thousands(경);
+					조 = parseNumber_thousands(조);
+					억 = parseNumber_thousands(억);
+					만 = parseNumber_thousands(만);
+					일 = parseNumber_thousands(일);
 
 					var num = 경*1e16 + 조*1e12 + 억*1e8 + 만*1e4 + 일;
 					return y+(num+'')+z;
@@ -232,6 +245,15 @@ var HanTools = {
 				return s;
 			}
 		}).join('');
+	},
+	'readNumber': function(n){
+		if(n < 10000) return readNumber_thousands(n);
+		var i=0, a=[];
+		if(n%10000) a.unshift(readNumber_thousands(n%10000));
+		for(; n=Math.floor(n/10000); i++){
+			if(n%10000) a.unshift(readNumber_thousands(n%10000)+"만억조경"[i])
+		}
+		return a.join(' ');
 	},
 	'noConflict': function(){
 		root.HanTools = _old_hantools;

@@ -121,9 +121,15 @@ describe('HanTools', function(){
 		});
 	});
 	describe('#parseNumber()', function(){
+		it("should parse Korean numbers correctly", function(){
+			assert.strictEqual(HanTools.parseNumber("천 구백 육십 사"), 1964);
+			assert.strictEqual(HanTools.parseNumber("오천 오백 사십 육"), 5546);
+			assert.strictEqual(HanTools.parseNumber("구백억 846만 사천 삼백 이십일"), 90008464321);
+			assert.strictEqual(HanTools.parseNumber("영"), 0);
+		});
 	});
 	describe('#replaceNumber()', function(){
-		it("should recognize Korean numbers correcty", function(){
+		it("should recognize Korean numbers correctly", function(){
 			assert.strictEqual(HanTools.replaceNumber("점수 천 이백 삼십 사 점"), "점수 1234 점");
 			assert.strictEqual(HanTools.replaceNumber("점수 천이백삼십사 점"), "점수 1234 점");
 			assert.strictEqual(HanTools.replaceNumber("일 더하기 일 은 귀요미!"), "1 더하기 1 은 귀요미!");
@@ -131,8 +137,23 @@ describe('HanTools', function(){
 		});
 		it("should handle numbers with inner-zeros correctly", function(){
 			assert.strictEqual(HanTools.replaceNumber("백조 한 마리"), "100000000000000 한 마리");
+			assert.strictEqual(HanTools.replaceNumber("구조 구"), "9000000000009");
 		});
 	});
 	describe('#readNumber()', function(){
+		it("should be inverse of parseNumber", function(){
+			var test = function testReadNumberInv(n, ans){
+				var res = HanTools.readNumber(n);
+				assert.strictEqual(res.replace(/\s+/g, ''), ans.replace(/\s+/g, ''));
+				assert.strictEqual(HanTools.parseNumber(res), n);
+			};
+			test(0, "영");
+			test(4, "사");
+			test(100, "백");
+			test(1234, "천 이백 삼십 사");
+			test(129048901258, "천 이백 구십억 사천 팔백 구십만 천 이백 오십 팔");
+			test(55554444, "오천 오백 오십 오만 사천 사백 사십 사");
+			test(11121100, "천 백 십 이만 천 백")
+		});
 	});
 });
