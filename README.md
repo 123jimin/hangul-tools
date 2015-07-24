@@ -93,8 +93,8 @@ var andro_key = HanTools.Keyboard.QWERTY.getKeySequence("dkssud"),
 	meda_key = HanTools.Keyboard.QWERTY.getKeySequence("jfshea");
 
 console.log("%s %s"
-	, HanTools.Keyboard.DUBEOLSIK.write(andro_key)
-	, HanTools.Keyboard.SEBEOLSIK_390.write(meda_key));
+	, HanTools.Keyboard.DUBEOLSIK.type(andro_key)
+	, HanTools.Keyboard.SEBEOLSIK_390.type(meda_key));
 
 console.log(HanTools.Keyboard.convert("dkssud", HanTools.Keyboard.QWERTY, HanTools.Keyboard.DUBEOLSIK));
 ```
