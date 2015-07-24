@@ -88,4 +88,15 @@ console.log(HanTools.readNumber(1234));
 ## 키보드
 두벌식과 세벌식 390을 지원합니다.
 
+```js
+var andro_key = HanTools.Keyboard.QWERTY.getKeySequence("dkssud"),
+	meda_key = HanTools.Keyboard.QWERTY.getKeySequence("jfshea");
+
+console.log("%s %s"
+	, HanTools.Keyboard.DUBEOLSIK.write(andro_key)
+	, HanTools.Keyboard.SEBEOLSIK_390.write(meda_key));
+
+console.log(HanTools.Keyboard.convert("dkssud", HanTools.Keyboard.QWERTY, HanTools.Keyboard.DUBEOLSIK));
+```
+
 ## 시간과 시각
