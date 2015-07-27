@@ -262,10 +262,14 @@ var HanTools = {
 };
 
 if((typeof exports) != 'undefined'){
+	HanTools.Keyboard = require("./hantools-keyboard.js")(HanTools);
 	if((typeof module) != 'undefined' && module.exports){
 		exports = module.exports = HanTools;
 	}
 	exports.HanTools = HanTools;
-}else root.HanTools = HanTools;
+}else{
+	if('HanTools_Keyboard' in root) HanTools.Keyboard = root.HanTools_Keyboard;
+	root.HanTools = HanTools;
+}
 
 }).call(this);
