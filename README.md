@@ -8,6 +8,12 @@
 ## hangul-tools 불러오기
 `var HanTools = require('hangul-tools');`
 
+```HTML
+<!-- hantools-keyboard.js는 키보드 관련 기능이 필요 없을 때는 불러올 필요 없음 -->
+<script src="./hantools-keyboard.js"></script>
+<script src="./hangul-tools.js"></script>
+```
+
 ## 초성, 중성, 종성 목록
 ```js
 // 문자열 "ㄱㄲㄴㄷ...ㅎ"
