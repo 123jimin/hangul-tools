@@ -7,6 +7,7 @@ var _extend = function _extend(parent, f){
 		f.apply(this, arguments);
 	} : function _extended(){};
 	child.prototype = new parent();
+	child.prototype.constructor = parent;
 	return child;
 };
 
@@ -23,6 +24,13 @@ var _qwerty_key = function(c){
 	if('A' <= c && c <= 'Z') return [c.toLowerCase(), true];
 	else if(c in QWERTY_SHIFT_INV) return [QWERTY_SHIFT_INV[c], true];
 	else return [c, false];
+}, _qwerty_key_inv = function(key){
+	if('a' <= key[0] && key[0] <= 'z')
+		return key[1] ? key[0].toUpperCase() : key[0];
+	else if(key[1] && key[0] in QWERTY_SHIFT)
+		return QWERTY_SHIFT[key[0]];
+	else
+		return key[0];
 };
 
 var _key_map_convert = function(s){
@@ -62,7 +70,16 @@ var _kor_key = function(map, c){
 	return map[3] && c in map[3] ? map[3][c] : [_qwerty_key(c)];
 };
 
-var Keyboard = function Keyboard(){};
+var Keyboard = function Keyboard(){
+	this.output = "";
+	this.buffer = [];
+};
+Keyboard.prototype.type = function(){return this;};
+Keyboard.prototype.getBufferString = function(){return this.buffer.join('');};
+Keyboard.prototype.getString = function(){return this.output + this.getBufferString();};
+Keyboard.type = function Keyboard_type(seq){
+	return (new this()).type(seq).getString();
+};
 
 Keyboard.QWERTY = _extend(Keyboard);
 Keyboard.QWERTY.getKeySequence = function QWERTY_getKeySequence(str){
@@ -70,8 +87,20 @@ Keyboard.QWERTY.getKeySequence = function QWERTY_getKeySequence(str){
 	for(i=0; i<str.length; i++) seq.push(_qwerty_key(str[i]));
 	return seq;
 };
+Keyboard.QWERTY.type = Keyboard.type;
+Keyboard.QWERTY.prototype.type = function QWERTY$type(seq){
+	seq.forEach(function(key){
+		this.buffer.push(_qwerty_key_inv(key));
+	}, this);
+	this.output += this.getBufferString();
+	this.buffer.splice(0, this.buffer.length);
+	return this;
+};
 
-Keyboard.DUBEOLSIK = _extend(Keyboard);
+Keyboard.DUBEOLSIK = _extend(Keyboard, function DUBEOLSIK(){
+	Keyboard.call(this);
+	this.state = 0;
+});
 Keyboard.DUBEOLSIK.getKeySequence = function DUBEOLSIK_getKeySequence(str){
 	var seq = [];
 	str.split('').map(HanTools.disintegrate).forEach(function(part){
@@ -80,6 +109,13 @@ Keyboard.DUBEOLSIK.getKeySequence = function DUBEOLSIK_getKeySequence(str){
 		else part.forEach(function(c){_push_multi(seq, _kor_key(DUBEOLSIK_MAP, c));});
 	});
 	return seq;
+};
+Keyboard.DUBEOLSIK.type = Keyboard.type;
+Keyboard.DUBEOLSIK.prototype.type = function DUBEOLSIK$type(seq){
+	seq.forEach(function(key){
+		
+	}, this);
+	return this;
 };
 
 Keyboard.SEBEOLSIK_390 = _extend(Keyboard);
@@ -105,8 +141,15 @@ Keyboard.SEBEOLSIK_390.getKeySequence = function SEBEOLSIK_390_getKeySequence(st
 	});
 	return seq;
 };
+Keyboard.SEBEOLSIK_390.type = Keyboard.type;
 
 Keyboard.getKeySequence = Keyboard.QWERTY.getKeySequence;
+
+Keyboard.convert = function Keyboard_convert(text, from, to){
+	if(from == null) from = Keyboard.QWERTY;
+	if(to == null) to = Keyboard.QWERTY;
+	return to.type(from.getKeySequence(text));
+};
 
 return Keyboard;
 

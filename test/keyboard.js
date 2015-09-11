@@ -13,15 +13,18 @@ var _simple_seq = function _simple_seq(s){
 describe('HanTools', function(){
 	describe('#Keyboard', function(){
 		it("should have some important keyboards", function(){
-			assert.strictEqual(typeof HanTools.Keyboard, 'function');
-			assert.strictEqual(typeof HanTools.Keyboard.QWERTY, 'function');
-			assert.strictEqual(typeof HanTools.Keyboard.DUBEOLSIK, 'function');
-			assert.strictEqual(typeof HanTools.Keyboard.SEBEOLSIK_390, 'function');
+			assert.strictEqual(typeof Keyboard, 'function');
+			assert.strictEqual(typeof Keyboard.QWERTY, 'function');
+			assert.strictEqual(typeof Keyboard.DUBEOLSIK, 'function');
+			assert.strictEqual(typeof Keyboard.SEBEOLSIK_390, 'function');
 		});
 
 		describe('#convert()', function(){
 			it("should behave correctly", function(){
-
+				assert.strictEqual(Keyboard.convert("dkssud", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "안녕");
+				assert.strictEqual(Keyboard.convert("안녕", Keyboard.DUBEOLSIK, Keyboard.QWERTY), "dkssud");
+				assert.strictEqual(Keyboard.convert("jfshea", Keyboard.QWERTY, Keyboard.SEBEOLSIK_390), "안녕");
+				assert.strictEqual(Keyboard.convert("안녕", Keyboard.SEBEOLSIK_390, Keyboard.QWERTY), "jfshea");
 			});
 		});
 		
