@@ -63,6 +63,15 @@ describe('HanTools', function(){
 			assert.strictEqual(HanTools.disintegrate("ㅔ"), "ㅔ");
 		});
 	});
+	describe('#compose()', function(){
+		it("should compose hanguls properly", function(){
+			assert.strictEqual(HanTools.compose("ㄱㅡㄹ"), "글");
+			assert.strictEqual(HanTools.compose("ㅈㅏ"), "자");
+			assert.strictEqual(HanTools.compose([null, "ㅏ"]), "ㅏ");
+			assert.strictEqual(HanTools.compose(["ㄷ", "ㅏ"]), "다");
+			assert.strictEqual(HanTools.compose(["ㅎ", "ㅣ", "ㅎ"]), "힣");
+		});
+	});
 	describe('#dueum()', function(){
 		it("should convert the first character correctly", function(){
 			assert.strictEqual(HanTools.dueum("녀자"), "여자");

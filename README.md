@@ -33,6 +33,9 @@ console.log(HanTools.JONGSEONG_EMPTY);
 한글을 확인할 때, 공백이나 초성, 중성, 기타 문자들이 들어가 있으면 안 된다는 것에
 주의해 주시기 바랍니다.
 
+또한, `disintegrate`와 `compose` 함수는 기본적인 초성, 중성, 종성 분해 및 결합만을
+할 수 있습니다. 복합 자음이나 모음은 분해가 되지 않으니 주의 해 주세요.
+
 ```js
 // true
 console.log(HanTools.isHangul("강"));
@@ -52,6 +55,14 @@ console.log(HanTools.toJongseong("안녕하세요!"));
 // [["ㅇ","ㅣ","ㅇ"], ["ㅇ","ㅕ"], "!"]
 console.log(
 	"잉여!".split('').map(HanTools.disintegrate)
+);
+
+// 문자열 "글자ㅏ다"
+console.log(
+	HanTools.compose("ㄱㅡㄹ") +
+	HanTools.compose("ㅈㅏ") +
+	HanTools.compose([null, "ㅏ"]) +
+	HanTools.compose(["ㄷ", "ㅏ", null])
 );
 
 // 문자열 "요로"

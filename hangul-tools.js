@@ -186,6 +186,27 @@ var HanTools = {
 				];
 		}else return s;
 	},
+	'compose': function(a){
+		var x, y, z;
+		// One component only
+		if(a.length == 1) return a[0];
+		
+		// No vowel
+		y = JUNGSEONG.indexOf(a[1]);
+		if(a.length > 3 || y == -1) return a.join('');
+
+		// Vowel only
+		if(a.length == 2 && a[0] == null)
+			return a[1];
+
+		x = CHOSEONG.indexOf(a[0]);
+		if(x == -1) return a.join('');
+		
+		z = a[2] ? JONGSEONG.indexOf(a[2]) : 0;
+		if(z == -1) return a.join('');
+		
+		return String.fromCharCode(HANGUL_FIRST_CODE + z + JONGSEONG_LEN*(y + JUNGSEONG_LEN*x));
+	},
 	'dueum': function(s){
 		if(!s) return '';
 		var c = s.charCodeAt(0);
