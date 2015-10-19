@@ -49,9 +49,20 @@ describe('HanTools', function(){
 					assert.deepEqual(
 						Keyboard.DUBEOLSIK.getKeySequence("ㅇㅅㅇ ㄲㄲ"),
 						_simple_seq("d_t_d_ _r^r^")
-					)
+					);
+					assert.deepEqual(
+						Keyboard.DUBEOLSIK.getKeySequence("정ㄱ-ㅠ 표현싴으로는 무리가 좀 있다 없다"),
+						_simple_seq("w_j_d_r_-_b_ _v_y_g_u_s_t_l_z_d_m_f_h_s_m_s_ _a_n_f_l_r_k_ _w_h_a_ _d_l_t^e_k_ _d_j_q_t_e_k_")
+					);
 				});
 
+			});
+			describe('#type()', function(){
+				it("should work for examples in getKeySequence()", function(){
+					assert.strictEqual(Keyboard.DUBEOLSIK.type(_simple_seq("s_k_f_k_t_a_k_f_t^k_a_l_ _e_b_d_r_n_l_r_d_p_ _e_k_f_d_k_")), "나랏말싸미 듕귁에 달아");
+					assert.strictEqual(Keyboard.DUBEOLSIK.type(_simple_seq("d_t_d_ _r^r^")), "ㅇㅅㅇ ㄲㄲ");
+					assert.strictEqual(Keyboard.DUBEOLSIK.type(_simple_seq("w_j_d_r_-_b_ _v_y_g_u_s_t_l_z_d_m_f_h_s_m_s_ _a_n_f_l_r_k_ _w_h_a_ _d_l_t^e_k_ _d_j_q_t_e_k_")), "정ㄱ-ㅠ 표현싴으로는 무리가 좀 있다 없다");
+				});
 			});
 		});
 
@@ -65,6 +76,10 @@ describe('HanTools', function(){
 					assert.deepEqual(
 						Keyboard.SEBEOLSIK_390.getKeySequence("ㅇㅅㅇ ㄲㄲ"),
 						_simple_seq("j_n_j_ _k_k_k_k_")
+					);
+					assert.deepEqual(
+						Keyboard.SEBEOLSIK_390.getKeySequence("정ㄱ-ㅠ 표현싴으로는 무리가 좀 있다 없다"),
+						_simple_seq("l_t_a_k_-_5_ _p_4_m_e_s_n_d_e^j_g_y_v_h_g_s_ _i_b_y_d_k_f_ _l_v_z_ _j_d_2_u_f_ _j_t_x^u_f_")
 					);
 				});
 			});

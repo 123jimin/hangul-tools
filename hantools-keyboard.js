@@ -43,13 +43,30 @@ var DUBEOLSIK_MAP = [
 	}),
 	"k o i O j p u P h hk ho hl y n nj np nl b m ml l".split(' ').map(_key_map_convert),
 	" r R rt s sw sg e f fr fa fq ft fx fv fg a q qt t T d w c z x v g".split(' ').map(_key_map_convert)
-];
+], DUBEOLSIK_MAP_INV = "ㅁㅠㅊㅇㄷㄹㅎㅗㅑㅓㅏㅣㅡㅜㅐㅔㅂㄱㄴㅅㅕㅍㅈㅌㅛㅋ";
 
 var SEBEOLSIK_390_MAP = [
 	"k kk h u uu y i ; ;; n nn j l ll o 0 \' p m".split(' ').map(_key_map_convert),
 	"f r 6 R t c e 7 v /f /r /d 4 b 9t 9c 9d 5 g 8 d".split(' ').map(_key_map_convert),
 	" x F xq s s! S A w D C w3 wq wW wQ V z 3 X q 2 a ! Z E W Q 1".split(' ').map(_key_map_convert)
 ];
+
+var _composible_hangul = function(x, y){
+	switch(x+y){
+		case "ㄱㄱ": return "ㄲ"; case "ㄱㅅ": return "ㄳ";
+		case "ㄴㅈ": return "ㄵ"; case "ㄴㅎ": return "ㄶ";
+		case "ㄷㄷ": return "ㄸ"; case "ㄹㄱ": return "ㄺ";
+		case "ㄹㅁ": return "ㄻ"; case "ㄹㅂ": return "ㄼ";
+		case "ㄹㅅ": return "ㄽ"; case "ㄹㅌ": return "ㄾ";
+		case "ㄹㅍ": return "ㄿ"; case "ㄹㅎ": return "ㅀ";
+		case "ㅂㅂ": return "ㅃ"; case "ㅂㅅ": return "ㅄ";
+		case "ㅅㅅ": return "ㅆ"; case "ㅈㅈ": return "ㅉ";
+		case "ㅗㅏ": return "ㅘ"; case "ㅗㅐ": return "ㅙ";
+		case "ㅗㅣ": return "ㅚ"; case "ㅜㅓ": return "ㅝ";
+		case "ㅜㅔ": return "ㅞ"; case "ㅜㅣ": return "ㅟ";
+		case "ㅡㅣ": return "ㅢ"; default: return null;
+	}
+};
 
 (function init_dict(){
 	for(var key in QWERTY_SHIFT) QWERTY_SHIFT_INV[QWERTY_SHIFT[key]] = key;
@@ -77,6 +94,7 @@ var Keyboard = function Keyboard(){
 Keyboard.prototype.type = function(){return this;};
 Keyboard.prototype.getBufferString = function(){return this.buffer.join('');};
 Keyboard.prototype.getString = function(){return this.output + this.getBufferString();};
+Keyboard.prototype.flushBuffer = function(){this.output += this.getBufferString(); this.buffer.splice(0, this.buffer.length);};
 Keyboard.type = function Keyboard_type(seq){
 	return (new this()).type(seq).getString();
 };
@@ -92,14 +110,12 @@ Keyboard.QWERTY.prototype.type = function QWERTY$type(seq){
 	seq.forEach(function(key){
 		this.buffer.push(_qwerty_key_inv(key));
 	}, this);
-	this.output += this.getBufferString();
-	this.buffer.splice(0, this.buffer.length);
+	this.flushBuffer();
 	return this;
 };
 
 Keyboard.DUBEOLSIK = _extend(Keyboard, function DUBEOLSIK(){
 	Keyboard.call(this);
-	this.state = 0;
 });
 Keyboard.DUBEOLSIK.getKeySequence = function DUBEOLSIK_getKeySequence(str){
 	var seq = [];
@@ -111,9 +127,54 @@ Keyboard.DUBEOLSIK.getKeySequence = function DUBEOLSIK_getKeySequence(str){
 	return seq;
 };
 Keyboard.DUBEOLSIK.type = Keyboard.type;
+Keyboard.DUBEOLSIK.prototype.getBufferString = function DUBEOLSIK$getBufferString(){
+	return HanTools.compose(this.buffer);
+};
 Keyboard.DUBEOLSIK.prototype.type = function DUBEOLSIK$type(seq){
 	seq.forEach(function(key){
-		
+		var ch = key[0];
+		if('a' <= ch && ch <= 'z'){
+			ch = DUBEOLSIK_MAP_INV[ch.charCodeAt(0)-97];
+			if(key[1]){
+				if(ch == 'ㄱ') ch = 'ㄲ';
+				else if(ch == 'ㄷ') ch = 'ㄸ';
+				else if(ch == 'ㅂ') ch = 'ㅃ';
+				else if(ch == 'ㅅ') ch = 'ㅆ';
+				else if(ch == 'ㅈ') ch = 'ㅉ';
+				else if(ch == 'ㅐ') ch = 'ㅒ';
+				else if(ch == 'ㅔ') ch = 'ㅖ';
+			}
+			var p, _c = _composible_hangul(this.buffer[this.buffer.length-1], ch),
+				v = HanTools.JUNGSEONG.indexOf(ch) >= 0;
+			if(_c){
+				this.buffer[this.buffer.length-1] = _c;
+				return;
+			}
+			if(v){
+				if(this.buffer.length == 3){
+					p = this.buffer.pop();
+					this.flushBuffer();
+					this.buffer.push(p, ch);
+				}else if(this.buffer.length == 2){
+					this.flushBuffer();
+					this.buffer.push(null, ch);
+				}else{
+					if(this.buffer.length == 0) this.buffer.push(null);
+					this.buffer.push(ch);
+				}
+			}else{
+				if(this.buffer.length == 0) this.buffer.push(ch);
+				else if(this.buffer[0] == null) this.buffer[0] = ch;
+				else if(this.buffer.length == 2) this.buffer.push(ch);
+				else{
+					this.flushBuffer();
+					this.buffer.push(ch);
+				}
+			}
+		}else{
+			this.flushBuffer();
+			this.output += _qwerty_key_inv(key);
+		}
 	}, this);
 	return this;
 };
