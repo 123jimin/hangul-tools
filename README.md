@@ -109,10 +109,12 @@ console.log(HanTools.readNumber(1234));
 var andro_key = HanTools.Keyboard.QWERTY.getKeySequence("dkssud"),
 	meda_key = HanTools.Keyboard.QWERTY.getKeySequence("jfshea");
 
+// 문자열 "안녕 안녕"
 console.log("%s %s"
 	, HanTools.Keyboard.DUBEOLSIK.type(andro_key)
 	, HanTools.Keyboard.SEBEOLSIK_390.type(meda_key));
 
+// 문자열 "안녕"
 console.log(HanTools.Keyboard.convert("dkssud", HanTools.Keyboard.QWERTY, HanTools.Keyboard.DUBEOLSIK));
 ```
 
