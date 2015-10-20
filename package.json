@@ -17,6 +17,5 @@
 	"devDependencies": {
 		"mocha": "^2.2.1"
 	},
-	"license": "MIT",
-	"readme": "README.md"
+	"license": "MIT"
 }
