@@ -1,9 +1,10 @@
 {
 	"name": "hangul-tools",
-	"version": "0.0.0",
-	"description": "A Hangul library for various Hangul/Korean operations",
+	"version": "0.1.0",
+	"description": "A Hangul library for various Hangul/Korean operations including reading numbers, adding josa, and converting between different keyboards",
 	"keywords": [
-		"hangul", "hangeul", "korea", "korean", "한글", "한국어"
+		"hangul", "hangeul", "korea", "korean", "한글", "한국어",
+		"andro", "meda", "josa", "keyboard"
 	],
 	"main": "./hangul-tools.js",
 	"repository": {
@@ -17,6 +18,5 @@
 		"mocha": "^2.2.1"
 	},
 	"license": "MIT",
-	"readme": "README.md",
-	"private": true
+	"readme": "README.md"
 }
