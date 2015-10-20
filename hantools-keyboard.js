@@ -99,7 +99,7 @@ Keyboard.type = function Keyboard_type(seq){
 	return (new this()).type(seq).getString();
 };
 
-Keyboard.QWERTY = _extend(Keyboard);
+Keyboard.QWERTY = _extend(Keyboard, Keyboard);
 Keyboard.QWERTY.getKeySequence = function QWERTY_getKeySequence(str){
 	var i, seq = [];
 	for(i=0; i<str.length; i++) seq.push(_qwerty_key(str[i]));
@@ -114,9 +114,7 @@ Keyboard.QWERTY.prototype.type = function QWERTY$type(seq){
 	return this;
 };
 
-Keyboard.DUBEOLSIK = _extend(Keyboard, function DUBEOLSIK(){
-	Keyboard.call(this);
-});
+Keyboard.DUBEOLSIK = _extend(Keyboard, Keyboard);
 Keyboard.DUBEOLSIK.getKeySequence = function DUBEOLSIK_getKeySequence(str){
 	var seq = [];
 	str.split('').map(HanTools.disintegrate).forEach(function(part){
@@ -126,7 +124,7 @@ Keyboard.DUBEOLSIK.getKeySequence = function DUBEOLSIK_getKeySequence(str){
 	});
 	return seq;
 };
-Keyboard.DUBEOLSIK.type = Keyboard.type;
+Keyboard.DUBEOLSIK.type = Keyboard.type.bind(Keyboard.DUBEOLSIK);
 Keyboard.DUBEOLSIK.prototype.getBufferString = function DUBEOLSIK$getBufferString(){
 	return HanTools.compose(this.buffer);
 };
@@ -179,7 +177,7 @@ Keyboard.DUBEOLSIK.prototype.type = function DUBEOLSIK$type(seq){
 	return this;
 };
 
-Keyboard.SEBEOLSIK_390 = _extend(Keyboard);
+Keyboard.SEBEOLSIK_390 = _extend(Keyboard, Keyboard);
 Keyboard.SEBEOLSIK_390.getKeySequence = function SEBEOLSIK_390_getKeySequence(str){
 	var seq = [];
 	str.split('').map(HanTools.disintegrate).forEach(function(part){
@@ -202,7 +200,94 @@ Keyboard.SEBEOLSIK_390.getKeySequence = function SEBEOLSIK_390_getKeySequence(st
 	});
 	return seq;
 };
-Keyboard.SEBEOLSIK_390.type = Keyboard.type;
+Keyboard.SEBEOLSIK_390.type = Keyboard.type.bind(Keyboard.SEBEOLSIK_390);
+Keyboard.SEBEOLSIK_390.prototype.getBufferString = function SEBEOLSIK_390$getBufferString(){
+	return HanTools.compose(this.buffer);
+};
+Keyboard.SEBEOLSIK_390.prototype.type = function SEBEOLSIK_390$type(seq){
+	seq.forEach(function(key){
+		var ch, part=0, _c;
+		
+		switch(ch=_qwerty_key_inv(key)){
+			case 'a': ch='ㅇ'; part=3; break; case 'A': ch='ㄷ'; part=3; break;
+			case 'b': ch='ㅜ'; part=2; break; case 'B': ch='!'; part=0; break;
+			case 'c': ch='ㅔ'; part=2; break; case 'C': ch='ㄻ'; part=3; break;
+			case 'd': ch='ㅣ'; part=2; break; case 'D': ch='ㄺ'; part=3; break;
+			case 'e': ch='ㅕ'; part=2; break; case 'E': ch='ㅋ'; part=3; break;
+			case 'f': ch='ㅏ'; part=2; break; case 'F': ch='ㄲ'; part=3; break;
+			case 'g': ch='ㅡ'; part=2; break; case 'G': ch='/'; part=3; break;
+			case 'h': ch='ㄴ'; part=1; break; case 'H': ch='\''; part=0; break;
+			case 'i': ch='ㅁ'; part=1; break; case 'I': ch='8'; part=0; break;
+			case 'j': ch='ㅇ'; part=1; break; case 'J': ch='4'; part=0; break;
+			case 'k': ch='ㄱ'; part=1; break; case 'K': ch='5'; part=0; break;
+			case 'l': ch='ㅈ'; part=1; break; case 'L': ch='6'; part=0; break;
+			case 'm': ch='ㅎ'; part=1; break; case 'M': ch='1'; part=0; break;
+			case 'n': ch='ㅅ'; part=1; break; case 'N': ch='0'; part=0; break;
+			case 'o': ch='ㅊ'; part=1; break; case 'O': ch='9'; part=0; break;
+			case 'p': ch='ㅍ'; part=1; break; case 'P': ch='>'; part=0; break;
+			case 'q': ch='ㅅ'; part=3; break; case 'Q': ch='ㅍ'; part=3; break;
+			case 'r': ch='ㅐ'; part=2; break; case 'R': ch='ㅒ'; part=2; break;
+			case 's': ch='ㄴ'; part=3; break; case 'S': ch='ㄶ'; part=3; break;
+			case 't': ch='ㅓ'; part=2; break; case 'T': ch=';'; part=0; break;
+			case 'u': ch='ㄷ'; part=1; break; case 'U': ch='7'; part=0; break;
+			case 'v': ch='ㅗ'; part=2; break; case 'V': ch='ㅀ'; part=3; break;
+			case 'w': ch='ㄹ'; part=3; break; case 'W': ch='ㅌ'; part=3; break;
+			case 'x': ch='ㄱ'; part=3; break; case 'X': ch='ㅄ'; part=3; break;
+			case 'y': ch='ㄹ'; part=1; break; case 'Y': ch='<'; part=0; break;
+			case 'z': ch='ㅁ'; part=3; break; case 'Z': ch='ㅊ'; part=3; break;
+			case '1': ch='ㅎ'; part=3; break; case '!': ch='ㅈ'; part=3; break;
+			case '2': ch='ㅆ'; part=3; break; case '3': ch='ㅂ'; part=3; break;
+			case '4': ch='ㅛ'; part=2; break; case '5': ch='ㅠ'; part=2; break;
+			case '6': ch='ㅖ'; part=2; break; case '7': ch='ㅖ'; part=2; break;
+			case '8': ch='ㅢ'; part=2; break; case '9': ch='ㅜ'; part=2; break;
+			case '0': ch='ㅋ'; part=1; break; case '<': ch='2'; part=0; break;
+			case '>': ch='3'; part=0; break; // TIDIL case '/': ch='ㅗ'; part=2; break;
+			default: part = 0;
+		}
+
+		if(part == 0){
+			this.flushBuffer();
+			this.output += ch;
+		}else if(part == 1){
+			if(this.buffer[0]){
+				_c = this.buffer[0] == ch && _composible_hangul(this.buffer[0], ch);
+				if(_c) this.buffer[0] = _c;
+				else{
+					this.flushBuffer();
+					this.buffer.push(ch);
+				}
+			}else{
+				this.buffer[0] = ch;
+			}
+		}else if(part == 2){
+			if(this.buffer[1]){
+				_c = _composible_hangul(this.buffer[1], ch);
+				if(_c) this.buffer[1] = _c;
+				else{
+					this.flushBuffer();
+					this.buffer.push(null, ch);
+				}
+			}else{
+				if(!this.buffer[0]) this.buffer[0] = null;
+				this.buffer[1] = ch;
+			}
+		}else if(part == 3){
+			if(this.buffer[2]){
+				_c = this.buffer[2] != ch || ch == 'ㄱ' || ch == 'ㅅ' ? _composible_hangul(this.buffer[2], ch) : null;
+				if(_c) this.buffer[2] = _c;
+				else{
+					this.flushBuffer();
+					this.buffer.push(null, null, ch);
+				}
+			}else{
+				if(!this.buffer[0]) this.buffer[0] = null;
+				if(!this.buffer[1]) this.buffer[1] = null;
+				this.buffer[2] = ch;
+			}
+		}
+	}, this);
+	return this;
+};
 
 Keyboard.getKeySequence = Keyboard.QWERTY.getKeySequence;
 

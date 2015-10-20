@@ -188,8 +188,12 @@ var HanTools = {
 	},
 	'compose': function(a){
 		var x, y, z;
+
+		if(a.length == 0) return "";
+
 		// One component only
-		if(a.length == 1 || !a[1] && !a[2]) return a[0];
+		if(a.length == 1 || !a[1] && !a[2])
+			return a[0] ? a[0] : "";
 		
 		// No vowel
 		y = JUNGSEONG.indexOf(a[1]);
