@@ -241,7 +241,9 @@ Keyboard.SEBEOLSIK_390.prototype.type = function SEBEOLSIK_390$type(seq){
 			case '6': ch='ㅖ'; part=2; break; case '7': ch='ㅖ'; part=2; break;
 			case '8': ch='ㅢ'; part=2; break; case '9': ch='ㅜ'; part=2; break;
 			case '0': ch='ㅋ'; part=1; break; case '<': ch='2'; part=0; break;
-			case '>': ch='3'; part=0; break; // TIDIL case '/': ch='ㅗ'; part=2; break;
+			case '>': ch='3'; part=0; break; case ';': ch='ㅂ'; part=1; break;
+			case '\'': ch='ㅌ'; part=1; break;
+			// TIDIL case '/': ch='ㅗ'; part=2; break;
 			default: part = 0;
 		}
 
@@ -250,7 +252,7 @@ Keyboard.SEBEOLSIK_390.prototype.type = function SEBEOLSIK_390$type(seq){
 			this.output += ch;
 		}else if(part == 1){
 			if(this.buffer[0]){
-				_c = this.buffer[0] == ch && _composible_hangul(this.buffer[0], ch);
+				_c = !this.buffer[1] && this.buffer[0] == ch && _composible_hangul(this.buffer[0], ch);
 				if(_c) this.buffer[0] = _c;
 				else{
 					this.flushBuffer();
