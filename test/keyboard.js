@@ -20,16 +20,30 @@ describe('HanTools', function(){
 		});
 
 		describe('#convert()', function(){
-			it("should behave correctly", function(){
+			it("should behave correctly on simple inputs", function(){
 				assert.strictEqual(Keyboard.convert("dkssud", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "안녕");
 				assert.strictEqual(Keyboard.convert("qkqh rhrl", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "바보 고기");
+				assert.strictEqual(Keyboard.convert("anfrhk", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "물과");
 				assert.strictEqual(Keyboard.convert("rkskekfkakqktk dkwkckzkxkvkgk", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "가나다라마바사 아자차카타파하");
 				assert.strictEqual(Keyboard.convert("안녕", Keyboard.DUBEOLSIK, Keyboard.QWERTY), "dkssud");
 				
 				assert.strictEqual(Keyboard.convert("jfshea", Keyboard.QWERTY, Keyboard.SEBEOLSIK_390), "안녕");
 				assert.strictEqual(Keyboard.convert(";f;v kvkd", Keyboard.QWERTY, Keyboard.SEBEOLSIK_390), "바보 고기");
+				assert.strictEqual(Keyboard.convert("ibwk/f", Keyboard.QWERTY, Keyboard.SEBEOLSIK_390), "물과");
 				assert.strictEqual(Keyboard.convert("kfhfufyfif;fnf jflfof0f'fpfmf", Keyboard.QWERTY, Keyboard.SEBEOLSIK_390), "가나다라마바사 아자차카타파하");
 				assert.strictEqual(Keyboard.convert("안녕", Keyboard.SEBEOLSIK_390, Keyboard.QWERTY), "jfshea");
+			});
+			it("should compose jongseongs correctly (Keyboard.DUBEOLSIK)", function(){
+				assert.strictEqual(Keyboard.convert("rkRkdns", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "가까운");
+				assert.strictEqual(Keyboard.convert("rkrrkdns", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "각가운");
+				assert.strictEqual(Keyboard.convert("rrkrkdns", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "까가운");
+				assert.strictEqual(Keyboard.convert("rrkrrkdns", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "깍가운");
+				assert.strictEqual(Keyboard.convert("rrkrrrkdns", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "깎가운");
+				assert.strictEqual(Keyboard.convert("rrkrRkdns", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "깍까운");
+				assert.strictEqual(Keyboard.convert("rrkRrkdns", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "깎가운");
+				assert.strictEqual(Keyboard.convert("qkfqk", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "발바");
+				assert.strictEqual(Keyboard.convert("qhqtlek", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "봅시다");
+				assert.strictEqual(Keyboard.convert("qhqt lek", Keyboard.QWERTY, Keyboard.DUBEOLSIK), "봆 ㅣ다");
 			});
 		});
 		
