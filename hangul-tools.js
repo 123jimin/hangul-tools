@@ -64,13 +64,13 @@ var numRegExp_thousand = null,
 		+ "(?:("+digits+"?["+h_nums.십+"])\\s?)?"
 		+ "("+digits+")?$");
 	
-	numRegExp = new RegExp("(\\s|^)"
+	numRegExp = new RegExp("(\\s+|^)"
 		+ "((?:"+thousands+")["+h_nums.경+"]\\s?)?"
 		+ "((?:"+thousands+")["+h_nums.조+"]\\s?)?"
 		+ "((?:"+thousands+")["+h_nums.억+"]\\s?)?"
 		+ "((?:"+thousands+")["+h_nums.만+"]\\s?)?"
 		+ "("+thousands+")?"
-	+"($|\\s)", 'g');
+	+"($|\\s+)", 'g');
 })(HANGUL_NUMBERS);
 
 var parseNumber_thousands = function(s){

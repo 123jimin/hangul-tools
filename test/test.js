@@ -143,10 +143,13 @@ describe('HanTools', function(){
 			assert.strictEqual(HanTools.replaceNumber("점수 천이백삼십사 점"), "점수 1234 점");
 			assert.strictEqual(HanTools.replaceNumber("일 더하기 일 은 귀요미!"), "1 더하기 1 은 귀요미!");
 			assert.strictEqual(HanTools.replaceNumber("영"), "0");
+			assert.strictEqual(HanTools.replaceNumber("   영"), "   0");
+			assert.strictEqual(HanTools.replaceNumber("*  이천오백구십만 칠천오십"), "*  25907050");
 		});
 		it("should handle numbers with inner-zeros correctly", function(){
 			assert.strictEqual(HanTools.replaceNumber("백조 한 마리"), "100000000000000 한 마리");
 			assert.strictEqual(HanTools.replaceNumber("구조 구"), "9000000000009");
+			assert.strictEqual(HanTools.replaceNumber("이천오백구십만 칠천오십"), "25907050");
 		});
 	});
 	describe('#readNumber()', function(){
