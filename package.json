@@ -1,6 +1,6 @@
 {
 	"name": "hangul-tools",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"description": "A Hangul library for various Hangul/Korean operations including reading numbers, adding josa, and converting between different keyboards",
 	"keywords": [
 		"hangul", "hangeul", "korea", "korean", "한글", "한국어",

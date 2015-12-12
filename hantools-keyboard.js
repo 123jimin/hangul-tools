@@ -126,6 +126,13 @@ Keyboard.DUBEOLSIK.getKeySequence = function DUBEOLSIK_getKeySequence(str){
 };
 Keyboard.DUBEOLSIK.type = Keyboard.type.bind(Keyboard.DUBEOLSIK);
 Keyboard.DUBEOLSIK.prototype.getBufferString = function DUBEOLSIK$getBufferString(){
+	if(this.buffer.length == 4){
+		var _c = _composible_hangul(this.buffer[2], this.buffer[3]);
+		if(_c){
+			this.buffer[2] = _c;
+			this.buffer.pop();
+		}
+	}
 	return HanTools.compose(this.buffer);
 };
 Keyboard.DUBEOLSIK.prototype.type = function DUBEOLSIK$type(seq){
@@ -144,12 +151,12 @@ Keyboard.DUBEOLSIK.prototype.type = function DUBEOLSIK$type(seq){
 			}
 			var p, _c = _composible_hangul(this.buffer[this.buffer.length-1], ch),
 				v = HanTools.JUNGSEONG.indexOf(ch) >= 0;
-			if(_c){
-				this.buffer[this.buffer.length-1] = _c;
-				return;
-			}
 			if(v){
-				if(this.buffer.length == 3){
+				if(_c){
+					this.buffer[this.buffer.length-1] = _c;
+					return;
+				}
+				if(this.buffer.length >= 3){
 					p = this.buffer.pop();
 					this.flushBuffer();
 					this.buffer.push(p, ch);
@@ -162,8 +169,12 @@ Keyboard.DUBEOLSIK.prototype.type = function DUBEOLSIK$type(seq){
 				}
 			}else{
 				if(this.buffer.length == 0) this.buffer.push(ch);
-				else if(this.buffer[0] == null) this.buffer[0] = ch;
-				else if(this.buffer.length == 2) this.buffer.push(ch);
+				else if(this.buffer[0] == null){
+					this.flushBuffer();
+					this.buffer.push(ch);
+
+				}else if(this.buffer.length == 1 && _c) this.buffer[0] = _c;
+				else if(this.buffer.length == 2 || this.buffer.length == 3 && _c) this.buffer.push(ch);
 				else{
 					this.flushBuffer();
 					this.buffer.push(ch);
@@ -243,7 +254,7 @@ Keyboard.SEBEOLSIK_390.prototype.type = function SEBEOLSIK_390$type(seq){
 			case '0': ch='ㅋ'; part=1; break; case '<': ch='2'; part=0; break;
 			case '>': ch='3'; part=0; break; case ';': ch='ㅂ'; part=1; break;
 			case '\'': ch='ㅌ'; part=1; break;
-			// TIDIL case '/': ch='ㅗ'; part=2; break;
+			case '/': if(this.buffer.length == 1){ch='ㅗ'; part=2;} break;
 			default: part = 0;
 		}
 
